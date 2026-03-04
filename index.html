@@ -309,34 +309,144 @@ nav{display:flex;gap:4px;flex-wrap:wrap}
 .calc-result-sub{color:var(--text3);font-size:0.84rem;margin-left:5px}
 .calc-time-note{margin-top:14px;color:var(--text3);font-size:0.9rem;font-style:italic}
 
-/* ── Recipes Browser ── */
-.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;align-items:center}
-.results-count{color:var(--text3);font-size:0.9rem;font-style:italic;margin-left:auto}
-.recipes-browser{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
-.recipe-card{
-  background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);
-  border:1px solid var(--border);border-radius:10px;padding:16px 18px;
-  cursor:pointer;transition:all .16s;
+/* ── Recipes two-pane layout ── */
+.recipes-layout{display:grid;grid-template-columns:320px 1fr;gap:20px;min-height:70vh}
+.recipes-sidebar{display:flex;flex-direction:column;gap:10px}
+.recipes-filter-bar{display:flex;flex-direction:column;gap:8px}
+.recipes-list{
+  flex:1;overflow-y:auto;max-height:calc(100vh - 240px);
+  display:flex;flex-direction:column;gap:6px;
+  padding-right:4px;
 }
-.recipe-card:hover{
-  border-color:var(--border2);background:linear-gradient(135deg,var(--bg3) 0%,var(--bg4) 100%);
-  transform:translateY(-2px);box-shadow:0 6px 24px rgba(109,40,217,0.2);
+.recipe-list-item{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;cursor:pointer;
+  transition:all .15s;display:flex;align-items:center;gap:10px;
 }
-.recipe-card .rc-name{font-size:1rem;color:var(--white);margin-bottom:4px}
-.recipe-card .rc-factory{font-size:0.84rem;color:var(--cyan);margin-bottom:8px}
-.rc-type-badge{
-  display:inline-block;font-size:0.67rem;font-family:'Cinzel',serif;
-  letter-spacing:0.07em;padding:2px 8px;border-radius:3px;margin-bottom:8px;
-}
-.badge-PRODUCTION{background:rgba(80,208,144,0.12);color:var(--green);border:1px solid rgba(80,208,144,0.25)}
-.badge-REPAIR{background:rgba(224,80,96,0.12);color:var(--red);border:1px solid rgba(224,80,96,0.25)}
-.badge-UPGRADE{background:rgba(240,192,64,0.12);color:var(--gold2);border:1px solid rgba(240,192,64,0.25)}
-.badge-RANDOM{background:rgba(80,200,224,0.12);color:var(--cyan);border:1px solid rgba(80,200,224,0.25)}
-.badge-OTHER{background:rgba(155,89,182,0.12);color:var(--purple2);border:1px solid rgba(155,89,182,0.25)}
-.rc-io{font-size:0.9rem;color:var(--text2);margin-top:8px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.recipe-list-item:hover{border-color:var(--border2);background:var(--bg3)}
+.recipe-list-item.active{border-color:var(--purple2);background:rgba(109,40,217,0.12)}
+.rli-icon{flex-shrink:0}
+.rli-text{min-width:0}
+.rli-name{font-size:1rem;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rli-sub{font-size:0.8rem;color:var(--text3);font-family:'Cinzel',serif;letter-spacing:0.03em}
 
-/* ── Calculator Panel ── */
-.calc-panel{max-width:900px}
+.recipes-detail{
+  background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);
+  border:1px solid var(--border);border-radius:12px;padding:28px 32px;
+  position:sticky;top:100px;align-self:start;
+}
+.recipes-detail-empty{
+  color:var(--text3);font-style:italic;font-size:1.1rem;
+  text-align:center;padding:60px 20px;
+}
+.rd-name{
+  font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;
+  background:linear-gradient(135deg,var(--white) 0%,var(--purple2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.rd-meta{font-size:0.93rem;color:var(--text2);margin-bottom:22px;display:flex;gap:16px;flex-wrap:wrap}
+.rd-meta strong{color:var(--gold)}
+
+/* ── Wizard calculator ── */
+.calc-wizard{max-width:100%}
+.wizard-step{margin-bottom:8px}
+.wizard-step-label{
+  font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;
+  color:var(--gold);letter-spacing:0.06em;
+  margin-bottom:16px;display:flex;align-items:center;gap:16px;
+}
+.wiz-back-btn{
+  background:transparent;border:1px solid var(--border2);
+  color:var(--text3);font-family:'Cinzel',serif;font-size:0.72rem;
+  letter-spacing:0.05em;padding:5px 12px;border-radius:5px;
+  cursor:pointer;transition:all .15s;
+}
+.wiz-back-btn:hover{border-color:var(--purple2);color:var(--purple2)}
+
+.wizard-factory-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;
+}
+.wiz-factory-btn{
+  background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);
+  border:1px solid var(--border);border-radius:8px;
+  padding:14px 16px;cursor:pointer;text-align:left;
+  transition:all .15s;
+}
+.wiz-factory-btn:hover{border-color:var(--purple2);background:rgba(109,40,217,0.1);transform:translateY(-1px);box-shadow:0 4px 16px rgba(109,40,217,0.2)}
+.wiz-factory-btn.active{border-color:var(--purple2);background:rgba(109,40,217,0.15)}
+.wfb-name{font-family:'Cinzel',serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:3px}
+.wfb-count{font-size:0.82rem;color:var(--text3)}
+
+.wizard-recipe-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;
+}
+.wiz-recipe-btn{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;cursor:pointer;text-align:left;
+  transition:all .15s;display:flex;align-items:center;gap:12px;
+}
+.wiz-recipe-btn:hover{border-color:var(--border2);background:var(--bg3);transform:translateY(-1px);box-shadow:0 4px 12px rgba(109,40,217,0.15)}
+.wrb-text{min-width:0}
+.wrb-name{font-size:1rem;color:var(--white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wrb-meta{font-size:0.8rem;color:var(--text3);font-family:'Cinzel',serif}
+
+.wizard-calc-area{
+  background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);
+  border:1px solid var(--border2);border-radius:12px;padding:28px 32px;
+  position:relative;overflow:hidden;
+}
+.wizard-calc-area::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--purple4),var(--gold),var(--purple2));
+}
+.wca-recipe-name{
+  font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;
+  background:linear-gradient(135deg,var(--white) 0%,var(--purple2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.wca-meta{font-size:0.9rem;color:var(--text2);margin-bottom:24px;display:flex;gap:14px;flex-wrap:wrap}
+.wca-meta strong{color:var(--gold)}
+.wca-io{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin-bottom:24px}
+.wca-arrow{display:flex;align-items:center;justify-content:center;padding-top:36px;font-size:2rem;color:var(--gold)}
+.wca-label{font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px;text-transform:uppercase}
+.wca-qty-row{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:18px 0 18px;border-top:1px solid var(--border);margin-top:8px;
+}
+.wca-qty-label{font-size:1.05rem;color:var(--text2)}
+.wca-qty-select{
+  background:var(--bg);border:1px solid var(--border2);border-radius:6px;
+  color:var(--white);font-family:'EB Garamond',serif;font-size:1.05rem;
+  padding:10px 14px;outline:none;cursor:pointer;
+}
+.wca-qty-input{
+  background:var(--bg);border:1px solid var(--border2);border-radius:6px;
+  color:var(--white);font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:600;
+  padding:10px 14px;width:120px;outline:none;text-align:center;
+  transition:border-color .15s,box-shadow .15s;
+}
+.wca-qty-input:focus{border-color:var(--purple2);box-shadow:0 0 0 3px rgba(192,132,232,0.12)}
+.wca-calc-btn{
+  background:linear-gradient(135deg,var(--purple4) 0%,var(--purple3) 100%);
+  border:1px solid var(--purple2);color:var(--white);
+  font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.06em;
+  padding:11px 28px;border-radius:6px;cursor:pointer;transition:all .15s;
+  box-shadow:0 2px 12px rgba(109,40,217,0.3);
+}
+.wca-calc-btn:hover{background:linear-gradient(135deg,var(--purple3) 0%,var(--purple2) 100%);box-shadow:0 4px 20px rgba(155,89,182,0.5);transform:translateY(-1px)}
+.wca-results{margin-top:20px}
+
+@media(max-width:900px){
+  .recipes-layout{grid-template-columns:1fr}
+  .recipes-detail{position:static}
+  .recipes-list{max-height:320px}
+}
+@media(max-width:600px){
+  .wca-io{grid-template-columns:1fr;gap:12px}
+  .wca-arrow{padding-top:0;transform:rotate(90deg)}
+}
 
 /* ── Utilities ── */
 .divider{border:none;border-top:1px solid var(--border);margin:24px 0}
@@ -413,48 +523,57 @@ nav{display:flex;gap:4px;flex-wrap:wrap}
 
   <!-- RECIPES -->
   <div class="panel" id="panel-recipes">
-    <div class="filter-bar">
-      <select class="calc-select" id="recipe-factory-filter" style="min-width:200px"><option value="">All Factories</option></select>
-      <select class="calc-select" id="recipe-type-filter">
-        <option value="">All Types</option>
-        <option value="PRODUCTION">Production</option>
-        <option value="REPAIR">Repair</option>
-        <option value="UPGRADE">Upgrade</option>
-        <option value="RANDOM">Random</option>
-      </select>
-      <span class="results-count" id="recipe-count-label"></span>
+    <div class="recipes-layout">
+      <!-- Left: filter + scrollable list -->
+      <div class="recipes-sidebar">
+        <div class="recipes-filter-bar">
+          <select class="calc-select" id="recipe-factory-filter" style="width:100%"><option value="">All Factories</option></select>
+          <select class="calc-select" id="recipe-type-filter" style="width:100%">
+            <option value="">All Types</option>
+            <option value="PRODUCTION">Production</option>
+            <option value="REPAIR">Repair</option>
+            <option value="UPGRADE">Upgrade</option>
+            <option value="RANDOM">Random</option>
+          </select>
+          <span class="results-count" id="recipe-count-label"></span>
+        </div>
+        <div class="recipes-list" id="recipes-list"></div>
+      </div>
+      <!-- Right: detail pane -->
+      <div class="recipes-detail" id="recipes-detail">
+        <div class="recipes-detail-empty">← Select a recipe to see details</div>
+      </div>
     </div>
-    <div class="recipes-browser" id="recipes-browser"></div>
   </div>
 
   <!-- CALCULATOR -->
-  <div class="panel calc-panel" id="panel-calculator">
-    <div class="section-title">Recipe Calculator</div>
-    <p style="color:var(--text2);margin-bottom:28px;font-size:1.05rem">Select a factory and recipe, then enter your target output quantity to calculate required materials.</p>
-    <div class="calc-box">
-      <div class="calc-box-title">✦ Configure</div>
-      <div class="calc-row">
-        <label>Factory</label>
-        <select class="calc-select" id="calc-factory" style="min-width:230px"><option value="">— Select Factory —</option></select>
+  <div class="panel" id="panel-calculator">
+    <div class="calc-wizard">
+
+      <!-- Step 1: Pick factory -->
+      <div class="wizard-step" id="wiz-step-1">
+        <div class="wizard-step-label">Step 1 — Choose a Factory</div>
+        <div class="wizard-factory-grid" id="wiz-factory-grid"></div>
       </div>
-      <div class="calc-row">
-        <label>Recipe</label>
-        <select class="calc-select" id="calc-recipe" style="min-width:290px" disabled><option value="">— Select Recipe —</option></select>
+
+      <!-- Step 2: Pick recipe (shown after factory selected) -->
+      <div class="wizard-step" id="wiz-step-2" style="display:none">
+        <div class="wizard-step-label">
+          Step 2 — Choose a Recipe
+          <button class="wiz-back-btn" id="wiz-back-1">← Change Factory</button>
+        </div>
+        <div class="wizard-recipe-grid" id="wiz-recipe-grid"></div>
       </div>
-      <div id="calc-output-row" class="calc-row" style="display:none">
-        <label>Target Output</label>
-        <select class="calc-select" id="calc-output-item" style="min-width:210px"></select>
-        <input type="number" class="calc-input" id="calc-target-amount" min="1" value="64">
-        <button class="calc-btn" id="calc-go">Calculate</button>
-        <button class="calc-reset" id="calc-reset">Reset</button>
+
+      <!-- Step 3: Set quantity + results (shown after recipe selected) -->
+      <div class="wizard-step" id="wiz-step-3" style="display:none">
+        <div class="wizard-step-label">
+          Step 3 — Calculate
+          <button class="wiz-back-btn" id="wiz-back-2">← Change Recipe</button>
+        </div>
+        <div class="wizard-calc-area" id="wiz-calc-area"></div>
       </div>
-      <div id="calc-results-area" class="calc-results" style="display:none">
-        <div class="calc-result-heading">Output</div>
-        <div id="calc-output-rows"></div>
-        <div class="calc-result-heading">Input Materials Needed</div>
-        <div id="calc-input-rows"></div>
-        <div class="calc-time-note" id="calc-time-note"></div>
-      </div>
+
     </div>
   </div>
 </div>
@@ -775,17 +894,19 @@ document.getElementById('detail-close').addEventListener('click',()=>{
 });
 
 // ═══════════════ RECIPES ═══════════════
+let selRecipe=null;
+
 function initRecipes(){
   const ff=document.getElementById('recipe-factory-filter');
   ff.innerHTML='<option value="">All Factories</option>'+
     Object.values(CFG.factories).sort((a,b)=>a.name.localeCompare(b.name))
       .map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join('');
-  ff.addEventListener('change',()=>renderRecipes());
-  document.getElementById('recipe-type-filter').addEventListener('change',()=>renderRecipes());
-  renderRecipes();
+  ff.addEventListener('change',()=>renderRecipeList());
+  document.getElementById('recipe-type-filter').addEventListener('change',()=>renderRecipeList());
+  renderRecipeList();
 }
 
-function renderRecipes(sf=''){
+function renderRecipeList(sf=''){
   const ff=document.getElementById('recipe-factory-filter').value;
   const tf=document.getElementById('recipe-type-filter').value;
   const fl=(sf||document.getElementById('global-search').value).toLowerCase();
@@ -797,18 +918,85 @@ function renderRecipes(sf=''){
       return[...Object.values(r.input),...Object.values(r.output)].some(i=>idn(i).toLowerCase().includes(fl)||i.type.toLowerCase().includes(fl));
     });
   document.getElementById('recipe-count-label').textContent=`${filtered.length} recipe${filtered.length!==1?'s':''}`;
-  const browser=document.getElementById('recipes-browser');browser.innerHTML='';
-  if(!filtered.length){browser.innerHTML='<div class="empty-state">No recipes match your filters.</div>';return;}
+  const list=document.getElementById('recipes-list');list.innerHTML='';
+  if(!filtered.length){list.innerHTML='<div class="empty-state" style="padding:40px 0">No recipes match.</div>';return;}
   for(const r of filtered){
-    const facs=r2f[r.id]||[];const inputs=Object.values(r.input);const outputs=Object.values(r.output);
-    const card=document.createElement('div');card.className='recipe-card';card.dataset.rid=r.id;
-    card.innerHTML=`<span class="rc-type-badge badge-${tc(r.type)}">${tn(r.type)}</span><div class="rc-name">${esc(r.name)}</div>${facs.length?`<div class="rc-factory">🏭 ${esc(facs.join(', '))}</div>`:''}`;
-    const io=document.createElement('div');io.className='rc-io';
-    for(const item of inputs.slice(0,3))io.appendChild(mkImg(item.type,22));
-    if(inputs.length>3){const s=document.createElement('span');s.textContent=`+${inputs.length-3}`;s.style.color='var(--text3)';io.appendChild(s);}
-    if(outputs.length){const a=document.createElement('span');a.className='arrow';a.textContent='→';io.appendChild(a);for(const item of outputs.slice(0,2))io.appendChild(mkImg(item.type,22));}
-    card.appendChild(io);card.addEventListener('click',()=>openModal(r.id));
-    browser.appendChild(card);
+    const outputs=Object.values(r.output);
+    const item=document.createElement('div');
+    item.className='recipe-list-item'+(selRecipe===r.id?' active':'');
+    item.dataset.rid=r.id;
+    const firstOut=outputs[0];
+    const iconEl=document.createElement('div');iconEl.className='rli-icon';
+    if(firstOut)iconEl.appendChild(mkImg(firstOut.type,28));
+    const txt=document.createElement('div');txt.className='rli-text';
+    txt.innerHTML=`<div class="rli-name">${esc(r.name)}</div><div class="rli-sub">${tn(r.type)}${r.production_time?' · '+fmt(r.production_time):''}</div>`;
+    item.appendChild(iconEl);item.appendChild(txt);
+    item.addEventListener('click',()=>openRecipeDetail(r.id));
+    list.appendChild(item);
+  }
+  // Re-render detail if selected recipe still visible
+  if(selRecipe&&filtered.find(r=>r.id===selRecipe))openRecipeDetail(selRecipe);
+  else if(filtered.length)openRecipeDetail(filtered[0].id);
+}
+
+function openRecipeDetail(rid){
+  selRecipe=rid;
+  document.querySelectorAll('.recipe-list-item').forEach(el=>el.classList.toggle('active',el.dataset.rid===rid));
+  const r=CFG.recipes[rid];const detail=document.getElementById('recipes-detail');
+  if(!r){detail.innerHTML='<div class="recipes-detail-empty">Recipe not found.</div>';return;}
+  const facs=r2f[rid]||[];
+  const inputs=Object.values(r.input),outputs=Object.values(r.output);
+  const badges={'PRODUCTION':'badge-PRODUCTION','REPAIR':'badge-REPAIR','UPGRADE':'badge-UPGRADE','RANDOM':'badge-RANDOM'};
+
+  // Build detail content
+  detail.innerHTML='';
+  const name=document.createElement('div');name.className='rd-name';name.textContent=r.name;
+  const meta=document.createElement('div');meta.className='rd-meta';
+  meta.innerHTML=`<span><strong>${tn(r.type)}</strong></span>${r.production_time?`<span>Time: <strong>${fmt(r.production_time)}</strong></span>`:''}${facs.length?`<span>Factory: <strong>${esc(facs.join(', '))}</strong></span>`:''}`;
+  detail.appendChild(name);detail.appendChild(meta);
+
+  // IO grid
+  const io=document.createElement('div');io.className='io-columns';
+  const inc=document.createElement('div');
+  inc.innerHTML='<div class="io-section-label">Inputs</div>';
+  const ing=document.createElement('div');ing.className='setup-cost-grid';
+  if(inputs.length)for(const item of inputs)ing.appendChild(mkChip(item));
+  else ing.innerHTML='<span style="color:var(--text3);font-style:italic;font-size:0.95rem">None</span>';
+  inc.appendChild(ing);
+  const ac=document.createElement('div');ac.className='io-arrow-col';ac.textContent='→';
+  const outc=document.createElement('div');
+  outc.innerHTML='<div class="io-section-label">Output</div>';
+  const outg=document.createElement('div');outg.className='setup-cost-grid';
+  if(outputs.length)for(const item of outputs)outg.appendChild(mkChip(item));
+  else outg.innerHTML='<span style="color:var(--text3);font-style:italic;font-size:0.95rem">None</span>';
+  outc.appendChild(outg);
+  io.appendChild(inc);io.appendChild(ac);io.appendChild(outc);
+  detail.appendChild(io);
+
+  // Inline quick-calc
+  if(inputs.length&&outputs.length){
+    const qc=document.createElement('div');qc.className='calc-box';qc.style.marginTop='20px';
+    qc.innerHTML=`<div class="calc-box-title">✦ Quick Calculator</div>`;
+    const qrow=document.createElement('div');qrow.className='calc-row';
+    const outSel=document.createElement('select');outSel.className='calc-select';
+    outputs.forEach(i=>{const o=document.createElement('option');o.value=i.type;o.dataset.amount=i.amount;o.textContent=`${idn(i)} (×${i.amount})`;outSel.appendChild(o);});
+    const qinput=document.createElement('input');qinput.type='number';qinput.className='calc-input';qinput.min='1';qinput.value='64';
+    const qbtn=document.createElement('button');qbtn.className='calc-btn';qbtn.textContent='Calculate';
+    const qreset=document.createElement('button');qreset.className='calc-reset';qreset.textContent='Reset';
+    qrow.appendChild(outSel);qrow.appendChild(qinput);qrow.appendChild(qbtn);qrow.appendChild(qreset);
+    const qresults=document.createElement('div');qresults.className='calc-results';qresults.style.display='none';
+    qbtn.addEventListener('click',()=>{
+      const base=parseInt(outSel.selectedOptions[0]?.dataset.amount)||1;
+      const tgt=parseInt(qinput.value)||64;const runs=Math.ceil(tgt/base);
+      let h=`<div class="calc-result-heading">Results</div><div class="calc-result-row"><span>Runs required</span><span class="calc-result-val">${runs.toLocaleString()}</span></div>`;
+      if(inputs.length){h+='<div class="calc-result-heading">Inputs Needed</div>';
+        for(const item of inputs){const url=wikiUrl(item.type);h+=`<div class="calc-result-row"><span class="item-label">${url?`<img src="${url}" width="26" height="26" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'" style="image-rendering:pixelated">`:''}  ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount}×${runs})</span></span></div>`;}
+      }
+      if(r.production_time){const s=toSecs(r.production_time)*runs;h+=`<div class="calc-time-note">⏱ Total time: ~${fmtS(s)}</div>`;}
+      qresults.innerHTML=h;qresults.style.display='';
+    });
+    qreset.addEventListener('click',()=>{qinput.value='64';qresults.style.display='none';qresults.innerHTML='';});
+    qc.appendChild(qrow);qc.appendChild(qresults);detail.appendChild(qc);
   }
 }
 
@@ -883,67 +1071,121 @@ document.getElementById('modal-calc-reset').addEventListener('click',()=>{
   const res=document.getElementById('modal-calc-results');res.style.display='none';res.innerHTML='';
 });
 
-// ═══════════════ CALCULATOR ═══════════════
-function initCalc(){
-  const fs=document.getElementById('calc-factory');
-  fs.innerHTML='<option value="">— Select Factory —</option>'+
-    Object.values(CFG.factories).sort((a,b)=>a.name.localeCompare(b.name))
-      .map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join('');
-  fs.addEventListener('change',()=>{
-    const fid=fs.value,rs=document.getElementById('calc-recipe');
-    document.getElementById('calc-output-row').style.display='none';
-    document.getElementById('calc-results-area').style.display='none';
-    if(!fid){rs.innerHTML='<option value="">— Select Recipe —</option>';rs.disabled=true;return;}
-    rs.disabled=false;
-    rs.innerHTML='<option value="">— Select Recipe —</option>'+
-      (CFG.factories[fid]?.recipes||[]).filter(rid=>CFG.recipes[rid])
-        .map(rid=>`<option value="${rid}">${esc(CFG.recipes[rid].name)}</option>`).join('');
-  });
-  document.getElementById('calc-recipe').addEventListener('change',()=>{
-    const rid=document.getElementById('calc-recipe').value;
-    document.getElementById('calc-results-area').style.display='none';
-    if(!rid){document.getElementById('calc-output-row').style.display='none';return;}
-    const outputs=Object.values(CFG.recipes[rid].output);
-    if(!outputs.length){document.getElementById('calc-output-row').style.display='none';return;}
-    const os=document.getElementById('calc-output-item');
-    os.innerHTML=outputs.map(i=>`<option value="${i.type}" data-amount="${i.amount}">${idn(i)} (×${i.amount})</option>`).join('');
-    document.getElementById('calc-output-row').style.display='flex';
-  });
-  document.getElementById('calc-go').addEventListener('click',()=>{
-    const rid=document.getElementById('calc-recipe').value;if(!rid)return;
-    const r=CFG.recipes[rid];
-    const sel=document.getElementById('calc-output-item');
-    const base=parseInt(sel.selectedOptions[0]?.dataset.amount)||1;
-    const tgt=parseInt(document.getElementById('calc-target-amount').value)||64;
-    const runs=Math.ceil(tgt/base);
-    const inputs=Object.values(r.input),outputs=Object.values(r.output);
-    let oh=`<div class="calc-result-row"><span class="calc-result-label">Runs required</span><span class="calc-result-val">${runs.toLocaleString()}</span></div>`;
-    for(const item of outputs){oh+=`<div class="calc-result-row"><span class="item-label"><img src="${wikiUrl(item.type)}" width="26" height="26" alt="" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'"> ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (base ×${item.amount})</span></span></div>`;}
-    document.getElementById('calc-output-rows').innerHTML=oh;
-    let ih='';
-    if(inputs.length)for(const item of inputs){ih+=`<div class="calc-result-row"><span class="item-label"><img src="${wikiUrl(item.type)}" width="26" height="26" alt="" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'"> ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount.toLocaleString()}×${runs})</span></span></div>`;}
+// ═══════════════ CALCULATOR WIZARD ═══════════════
+let wizFac=null,wizRec=null;
 
-    else ih='<div style="color:var(--text3);font-style:italic;padding:8px 0;font-size:1rem">No inputs required.</div>';
-    document.getElementById('calc-input-rows').innerHTML=ih;
-    const tn2=document.getElementById('calc-time-note');
-    if(r.production_time){const s=toSecs(r.production_time)*runs;tn2.textContent=`⏱ Total time: ~${fmtS(s)} (${runs} × ${fmt(r.production_time)})`;}
-    else tn2.textContent='';
-    document.getElementById('calc-results-area').style.display='';
+function initCalc(){
+  // Build factory grid
+  const grid=document.getElementById('wiz-factory-grid');
+  for(const f of Object.values(CFG.factories).sort((a,b)=>a.name.localeCompare(b.name))){
+    const btn=document.createElement('button');btn.className='wiz-factory-btn';btn.dataset.fid=f.id;
+    btn.innerHTML=`<div class="wfb-name">${esc(f.name)}</div><div class="wfb-count">${f.recipes.length} recipe${f.recipes.length!==1?'s':''}</div>`;
+    btn.addEventListener('click',()=>wizSelectFactory(f.id));
+    grid.appendChild(btn);
+  }
+  document.getElementById('wiz-back-1').addEventListener('click',()=>{
+    wizFac=null;wizRec=null;
+    document.getElementById('wiz-step-2').style.display='none';
+    document.getElementById('wiz-step-3').style.display='none';
+    document.querySelectorAll('.wiz-factory-btn').forEach(b=>b.classList.remove('active'));
   });
-  document.getElementById('calc-reset').addEventListener('click',()=>{
-    document.getElementById('calc-factory').value='';
-    const rs=document.getElementById('calc-recipe');
-    rs.innerHTML='<option value="">— Select Recipe —</option>';rs.disabled=true;
-    document.getElementById('calc-output-row').style.display='none';
-    document.getElementById('calc-results-area').style.display='none';
-    document.getElementById('calc-target-amount').value=64;
+  document.getElementById('wiz-back-2').addEventListener('click',()=>{
+    wizRec=null;
+    document.getElementById('wiz-step-3').style.display='none';
+    document.querySelectorAll('.wiz-recipe-btn').forEach(b=>b.classList.remove('active'));
   });
+}
+
+function wizSelectFactory(fid){
+  wizFac=fid;wizRec=null;
+  document.querySelectorAll('.wiz-factory-btn').forEach(b=>b.classList.toggle('active',b.dataset.fid===fid));
+  const f=CFG.factories[fid];
+  // Build recipe grid
+  const grid=document.getElementById('wiz-recipe-grid');grid.innerHTML='';
+  const recs=f.recipes.filter(rid=>CFG.recipes[rid]).map(rid=>CFG.recipes[rid]);
+  for(const r of recs){
+    const outputs=Object.values(r.output);
+    const btn=document.createElement('button');btn.className='wiz-recipe-btn';btn.dataset.rid=r.id;
+    const iconEl=document.createElement('div');iconEl.style.flexShrink='0';
+    if(outputs[0])iconEl.appendChild(mkImg(outputs[0].type,32));
+    const txt=document.createElement('div');txt.className='wrb-text';
+    txt.innerHTML=`<div class="wrb-name">${esc(r.name)}</div><div class="wrb-meta">${tn(r.type)}${r.production_time?' · '+fmt(r.production_time):''}</div>`;
+    btn.appendChild(iconEl);btn.appendChild(txt);
+    btn.addEventListener('click',()=>wizSelectRecipe(r.id));
+    grid.appendChild(btn);
+  }
+  document.getElementById('wiz-step-2').style.display='';
+  document.getElementById('wiz-step-3').style.display='none';
+  document.getElementById('wiz-step-2').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function wizSelectRecipe(rid){
+  wizRec=rid;
+  document.querySelectorAll('.wiz-recipe-btn').forEach(b=>b.classList.toggle('active',b.dataset.rid===rid));
+  const r=CFG.recipes[rid];
+  const facs=r2f[rid]||[];
+  const inputs=Object.values(r.input),outputs=Object.values(r.output);
+  const area=document.getElementById('wiz-calc-area');area.innerHTML='';
+
+  // Recipe title + meta
+  const title=document.createElement('div');title.className='wca-recipe-name';title.textContent=r.name;
+  const meta=document.createElement('div');meta.className='wca-meta';
+  meta.innerHTML=`<span><strong>${tn(r.type)}</strong></span>${r.production_time?`<span>Per run: <strong>${fmt(r.production_time)}</strong></span>`:''}${facs.length?`<span>Factory: <strong>${esc(facs.join(', '))}</strong></span>`:''}`;
+  area.appendChild(title);area.appendChild(meta);
+
+  // IO preview
+  const io=document.createElement('div');io.className='wca-io';
+  const inc=document.createElement('div');
+  inc.innerHTML='<div class="wca-label">Inputs</div>';
+  const ing=document.createElement('div');ing.className='setup-cost-grid';
+  if(inputs.length)for(const item of inputs)ing.appendChild(mkChip(item));
+  else ing.innerHTML='<span style="color:var(--text3);font-style:italic">None</span>';
+  inc.appendChild(ing);
+  const ac=document.createElement('div');ac.className='wca-arrow';ac.textContent='→';
+  const outc=document.createElement('div');
+  outc.innerHTML='<div class="wca-label">Output</div>';
+  const outg=document.createElement('div');outg.className='setup-cost-grid';
+  if(outputs.length)for(const item of outputs)outg.appendChild(mkChip(item));
+  else outg.innerHTML='<span style="color:var(--text3);font-style:italic">None</span>';
+  outc.appendChild(outg);
+  io.appendChild(inc);io.appendChild(ac);io.appendChild(outc);
+  area.appendChild(io);
+
+  // Quantity row
+  if(inputs.length||outputs.length){
+    const qrow=document.createElement('div');qrow.className='wca-qty-row';
+    const qlabel=document.createElement('span');qlabel.className='wca-qty-label';qlabel.textContent='I want';
+    const qnum=document.createElement('input');qnum.type='number';qnum.className='wca-qty-input';qnum.min='1';qnum.value='64';
+    const qsel=document.createElement('select');qsel.className='wca-qty-select';
+    outputs.forEach(i=>{const o=document.createElement('option');o.value=i.type;o.dataset.amount=i.amount;o.textContent=idn(i);qsel.appendChild(o);});
+    const qbtn=document.createElement('button');qbtn.className='wca-calc-btn';qbtn.textContent='Calculate ✦';
+    qrow.appendChild(qlabel);qrow.appendChild(qnum);qrow.appendChild(qsel);qrow.appendChild(qbtn);
+    area.appendChild(qrow);
+    const qresults=document.createElement('div');qresults.className='wca-results';area.appendChild(qresults);
+    qbtn.addEventListener('click',()=>{
+      const base=parseInt(qsel.selectedOptions[0]?.dataset.amount)||1;
+      const tgt=parseInt(qnum.value)||64;const runs=Math.ceil(tgt/base);
+      let h=`<div class="calc-result-heading">Results</div>
+        <div class="calc-result-row"><span>Runs required</span><span class="calc-result-val">${runs.toLocaleString()}</span></div>`;
+      if(outputs.length){h+='<div class="calc-result-heading">You will get</div>';
+        for(const item of outputs){const url=wikiUrl(item.type);h+=`<div class="calc-result-row"><span class="item-label">${url?`<img src="${url}" width="26" height="26" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'" style="image-rendering:pixelated"> `:''}${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount}×${runs})</span></span></div>`;}}
+      if(inputs.length){h+='<div class="calc-result-heading">Materials needed</div>';
+        for(const item of inputs){const url=wikiUrl(item.type);h+=`<div class="calc-result-row"><span class="item-label">${url?`<img src="${url}" width="26" height="26" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'" style="image-rendering:pixelated"> `:''}${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount}×${runs})</span></span></div>`;}}
+      if(r.production_time){const s=toSecs(r.production_time)*runs;h+=`<div class="calc-time-note">⏱ Total time: ~${fmtS(s)} (${runs} runs × ${fmt(r.production_time)} each)</div>`;}
+      qresults.innerHTML=h;
+    });
+    // Auto-calculate immediately on load
+    qbtn.click();
+  }
+
+  document.getElementById('wiz-step-3').style.display='';
+  document.getElementById('wiz-step-3').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 // ═══════════════ SEARCH ═══════════════
 let st;document.getElementById('global-search').addEventListener('input',e=>{
   clearTimeout(st);st=setTimeout(()=>{const q=e.target.value;
-    if(curPanel==='factories')renderFacs(q);else if(curPanel==='recipes')renderRecipes(q);
+    if(curPanel==='factories')renderFacs(q);else if(curPanel==='recipes')renderRecipeList(q);
   },150);
 });
 
