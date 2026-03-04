@@ -200,11 +200,11 @@ nav{display:flex;gap:4px;flex-wrap:wrap}
   min-width:170px;transition:border-color .15s;
 }
 .item-chip:hover{border-color:var(--purple)}
-.item-icon-wrap{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.item-icon-wrap{width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .item-icon-img{width:32px;height:32px;image-rendering:pixelated}
-.item-info .item-name{font-size:0.97rem;color:var(--white);line-height:1.25}
-.item-info .item-amount{font-size:0.9rem;color:var(--gold);font-weight:600}
-.item-info .item-type{font-size:0.75rem;color:var(--text3)}
+.item-info .item-name{font-size:1.05rem;color:var(--white);line-height:1.25}
+.item-info .item-amount{font-size:1rem;color:var(--gold);font-weight:600}
+.item-info .item-type{font-size:0.8rem;color:var(--text3)}
 
 /* ── Recipe List in Factory Detail ── */
 .recipe-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
@@ -513,6 +513,35 @@ const WIKI_OVR = {
   MUSIC_DISC_STAL:'Music_Disc_Stal',MUSIC_DISC_STRAD:'Music_Disc_Strad',
   MUSIC_DISC_WAIT:'Music_Disc_Wait',MUSIC_DISC_WARD:'Music_Disc_Ward',
   MUSIC_DISC_CREATOR:'Music_Disc_Creator',MUSIC_DISC_PRECIPICE:'Music_Disc_Precipice',
+  // "Block of X" naming used by the wiki for resource blocks
+  IRON_BLOCK:'Block_of_Iron',GOLD_BLOCK:'Block_of_Gold',
+  COAL_BLOCK:'Block_of_Coal',REDSTONE_BLOCK:'Block_of_Redstone',
+  EMERALD_BLOCK:'Block_of_Emerald',DIAMOND_BLOCK:'Block_of_Diamond',
+  LAPIS_BLOCK:'Block_of_Lapis_Lazuli',QUARTZ_BLOCK:'Block_of_Quartz',
+  COPPER_BLOCK:'Block_of_Copper',RAW_IRON_BLOCK:'Block_of_Raw_Iron',
+  RAW_GOLD_BLOCK:'Block_of_Raw_Gold',RAW_COPPER_BLOCK:'Block_of_Raw_Copper',
+  NETHERITE_BLOCK:'Block_of_Netherite',AMETHYST_BLOCK:'Block_of_Amethyst',
+  WAXED_COPPER_BLOCK:'Waxed_Block_of_Copper',
+  WAXED_EXPOSED_COPPER:'Waxed_Exposed_Copper',
+  WAXED_WEATHERED_COPPER:'Waxed_Weathered_Copper',
+  WAXED_OXIDIZED_COPPER:'Waxed_Oxidized_Copper',
+  // Other common mismatches
+  NETHER_BRICKS:'Nether_Bricks',BRICKS:'Bricks',
+  DEEPSLATE_DIAMOND_ORE:'Deepslate_Diamond_Ore',
+  DEEPSLATE_LAPIS_ORE:'Deepslate_Lapis_Ore',
+  DEEPSLATE_REDSTONE_ORE:'Deepslate_Redstone_Ore',
+  MOSSY_COBBLESTONE:'Mossy_Cobblestone',
+  CHISELED_BOOKSHELF:'Chiseled_Bookshelf',
+  POLISHED_BLACKSTONE_BRICKS:'Polished_Blackstone_Bricks',
+  CRACKED_POLISHED_BLACKSTONE_BRICKS:'Cracked_Polished_Blackstone_Bricks',
+  CRACKED_STONE_BRICKS:'Cracked_Stone_Bricks',
+  CRACKED_DEEPSLATE_BRICKS:'Cracked_Deepslate_Bricks',
+  CRACKED_DEEPSLATE_TILES:'Cracked_Deepslate_Tiles',
+  SMOOTH_STONE:'Smooth_Stone',SMOOTH_BASALT:'Smooth_Basalt',
+  SMOOTH_QUARTZ:'Smooth_Quartz',SMOOTH_SANDSTONE:'Smooth_Sandstone',
+  SMOOTH_RED_SANDSTONE:'Smooth_Red_Sandstone',
+  MUSIC_DISC_CREATOR_MUSIC_BOX:'Music_Disc_Creator_Music_Box',
+  DRIED_GHAST:'Dried_Ghast',
 };
 const FB = {IRON_INGOT:'🪨',GOLD_INGOT:'✨',DIAMOND:'💎',EMERALD:'💚',COAL:'⬛',
   CHARCOAL:'🖤',NETHERITE_INGOT:'🔥',COPPER_INGOT:'🟠',EXPERIENCE_BOTTLE:'💚',
@@ -523,12 +552,24 @@ function wikiUrl(t){
   const n=WIKI_OVR[t]||t.split('_').map(w=>w[0].toUpperCase()+w.slice(1).toLowerCase()).join('_');
   return WIKI_BASE+n+'.png';
 }
-function mkImg(t,sz=32){
+// Broken icon tracker — run window.brokenIcons() in browser console to see all failures
+const _brokenIconSet = new Set();
+window.brokenIcons = () => {
+  if (!_brokenIconSet.size) { console.log('No broken icons detected yet.'); return []; }
+  console.group(`Broken icons (${_brokenIconSet.size}) — add these to WIKI_OVR`);
+  [..._brokenIconSet].sort().forEach(t => console.log(`  '${t}': '???',   // was: ${wikiUrl(t)}`));
+  console.groupEnd();
+  return [..._brokenIconSet];
+};
+
+function mkImg(t,sz=40){
   const img=document.createElement('img');
   img.width=sz;img.height=sz;img.style.imageRendering='pixelated';img.alt=t;img.src=wikiUrl(t);
   img.onerror=()=>{
+    _brokenIconSet.add(t);
     const s=document.createElement('span');
-    s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.65)}px;background:rgba(155,89,182,0.1);border-radius:4px;`;
+    s.title=`Missing icon: ${t}`;
+    s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.65)}px;background:rgba(155,89,182,0.1);border-radius:4px;cursor:help;`;
     s.textContent=FB[t]||'📦';img.replaceWith(s);
   };
   return img;
@@ -605,7 +646,7 @@ function tn(t){return{PRODUCTION:'Production',REPAIR:'Repair',UPGRADE:'Upgrade',
 
 function mkChip(item){
   const w=document.createElement('div');w.className='item-chip';
-  const iw=document.createElement('div');iw.className='item-icon-wrap';iw.appendChild(mkImg(item.type,32));
+  const iw=document.createElement('div');iw.className='item-icon-wrap';iw.appendChild(mkImg(item.type,40));
   const inf=document.createElement('div');inf.className='item-info';
   inf.innerHTML=`<div class="item-name">${esc(idn(item))}</div><div class="item-amount">×${item.amount.toLocaleString()}</div>${item.display_name?`<div class="item-type">${esc(item.type)}</div>`:''}`;
   w.appendChild(iw);w.appendChild(inf);return w;
@@ -655,7 +696,7 @@ function renderFacs(filter=''){
     const card=document.createElement('div');
     card.className='factory-card'+(selFac===f.id?' selected':'');card.dataset.fid=f.id;
     const prev=document.createElement('div');prev.className='factory-setup-preview';
-    for(const item of Object.values(f.setupcost).slice(0,6))prev.appendChild(mkImg(item.type,24));
+    for(const item of Object.values(f.setupcost).slice(0,6))prev.appendChild(mkImg(item.type,28));
     card.innerHTML=`<div class="factory-name">${esc(f.name)}</div><span class="factory-type-badge badge-${f.type}">${f.type}</span>`;
     card.appendChild(prev);
     card.innerHTML+=`<div class="factory-recipe-count">${f.recipes.length} recipe${f.recipes.length!==1?'s':''}</div>`;
@@ -699,9 +740,9 @@ function openFac(fid){
     if(rec){row.dataset.rid=rid;
       const inputs=Object.values(rec.input),outputs=Object.values(rec.output);
       const io=document.createElement('div');io.className='rr-io';
-      for(const item of inputs.slice(0,3))io.appendChild(mkImg(item.type,18));
+      for(const item of inputs.slice(0,3))io.appendChild(mkImg(item.type,22));
       if(inputs.length>3){const s=document.createElement('span');s.textContent=`+${inputs.length-3}`;s.style.color='var(--text3)';s.style.fontSize='0.82rem';io.appendChild(s);}
-      if(outputs.length){const a=document.createElement('span');a.className='arrow';a.textContent='→';io.appendChild(a);for(const item of outputs.slice(0,2))io.appendChild(mkImg(item.type,18));}
+      if(outputs.length){const a=document.createElement('span');a.className='arrow';a.textContent='→';io.appendChild(a);for(const item of outputs.slice(0,2))io.appendChild(mkImg(item.type,22));}
       row.innerHTML=`<div class="rr-name">${esc(rec.name)}</div><div class="rr-meta">${tn(rec.type)}${rec.production_time?' · '+fmt(rec.production_time):''}</div>`;
       row.appendChild(io);row.addEventListener('click',()=>openModal(rid));
     }else{row.style.opacity='.4';row.innerHTML=`<div class="rr-name">${esc(rid)}</div>`;}
@@ -747,9 +788,9 @@ function renderRecipes(sf=''){
     const card=document.createElement('div');card.className='recipe-card';card.dataset.rid=r.id;
     card.innerHTML=`<span class="rc-type-badge badge-${tc(r.type)}">${tn(r.type)}</span><div class="rc-name">${esc(r.name)}</div>${facs.length?`<div class="rc-factory">🏭 ${esc(facs.join(', '))}</div>`:''}`;
     const io=document.createElement('div');io.className='rc-io';
-    for(const item of inputs.slice(0,3))io.appendChild(mkImg(item.type,18));
+    for(const item of inputs.slice(0,3))io.appendChild(mkImg(item.type,22));
     if(inputs.length>3){const s=document.createElement('span');s.textContent=`+${inputs.length-3}`;s.style.color='var(--text3)';io.appendChild(s);}
-    if(outputs.length){const a=document.createElement('span');a.className='arrow';a.textContent='→';io.appendChild(a);for(const item of outputs.slice(0,2))io.appendChild(mkImg(item.type,18));}
+    if(outputs.length){const a=document.createElement('span');a.className='arrow';a.textContent='→';io.appendChild(a);for(const item of outputs.slice(0,2))io.appendChild(mkImg(item.type,22));}
     card.appendChild(io);card.addEventListener('click',()=>openModal(r.id));
     browser.appendChild(card);
   }
@@ -812,7 +853,7 @@ function runModalCalc(){
     h+='<div class="calc-result-heading">Input Materials</div>';
     for(const item of inputs){
       h+=`<div class="calc-result-row">
-        <span class="item-label"><img src="${wikiUrl(item.type)}" width="22" height="22" alt="" onerror="this.style.display='none'"> ${esc(idn(item))}</span>
+        <span class="item-label"><img src="${wikiUrl(item.type)}" width="26" height="26" alt="" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'"> ${esc(idn(item))}</span>
         <span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount}×${runs})</span></span>
       </div>`;
     }
@@ -861,10 +902,11 @@ function initCalc(){
     const runs=Math.ceil(tgt/base);
     const inputs=Object.values(r.input),outputs=Object.values(r.output);
     let oh=`<div class="calc-result-row"><span class="calc-result-label">Runs required</span><span class="calc-result-val">${runs.toLocaleString()}</span></div>`;
-    for(const item of outputs){oh+=`<div class="calc-result-row"><span class="item-label"><img src="${wikiUrl(item.type)}" width="22" height="22" alt="" onerror="this.style.display='none'"> ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (base ×${item.amount})</span></span></div>`;}
+    for(const item of outputs){oh+=`<div class="calc-result-row"><span class="item-label"><img src="${wikiUrl(item.type)}" width="26" height="26" alt="" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'"> ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (base ×${item.amount})</span></span></div>`;}
     document.getElementById('calc-output-rows').innerHTML=oh;
     let ih='';
-    if(inputs.length)for(const item of inputs){ih+=`<div class="calc-result-row"><span class="item-label"><img src="${wikiUrl(item.type)}" width="22" height="22" alt="" onerror="this.style.display='none'"> ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount.toLocaleString()}×${runs})</span></span></div>`;}
+    if(inputs.length)for(const item of inputs){ih+=`<div class="calc-result-row"><span class="item-label"><img src="${wikiUrl(item.type)}" width="26" height="26" alt="" data-t="${item.type}" onerror="_brokenIconSet.add(this.dataset.t);this.style.display='none'"> ${esc(idn(item))}</span><span><span class="calc-result-val">${(item.amount*runs).toLocaleString()}</span><span class="calc-result-sub"> (${item.amount.toLocaleString()}×${runs})</span></span></div>`;}
+
     else ih='<div style="color:var(--text3);font-style:italic;padding:8px 0;font-size:1rem">No inputs required.</div>';
     document.getElementById('calc-input-rows').innerHTML=ih;
     const tn2=document.getElementById('calc-time-note');
