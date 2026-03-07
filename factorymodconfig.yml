@@ -41,6 +41,28 @@ factories:
       - make_podzol
       - repair_dirt_factory
 
+  leather_boiling_factory:
+    type: FCC
+    name: Leather Boiling Factory
+    citadelBreakReduction: 2.0
+    setupcost:
+      leather:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER
+        amount: 64
+      water_bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WATER_BUCKET
+        amount: 4
+    recipes:
+      - boil_leather_helmet
+      - boil_leather_chestplate
+      - boil_leather_leggings
+      - boil_leather_boots
+      - repair_leather_boiling_factory
+
   nether_alchemy_factory:
     type: FCC
     name: Nether Alchemy Factory
@@ -78,6 +100,8 @@ factories:
       - alchemize_magma_to_cobblestone
       - alchemize_nether_to_cobbled_deepslate
       - alchemize_basalt_to_coal
+      - oil_fishing_rod
+      - crack_nether_fossil
       - repair_nether_alchemy_factory
 
   wordbank_factory:
@@ -356,6 +380,22 @@ factories:
       - make_decorated_pot
       - pack_ice
       - pack_blue_ice
+      - dye_harness_white
+      - dye_harness_orange
+      - dye_harness_magenta
+      - dye_harness_light_blue
+      - dye_harness_yellow
+      - dye_harness_lime
+      - dye_harness_pink
+      - dye_harness_gray
+      - dye_harness_light_gray
+      - dye_harness_cyan
+      - dye_harness_purple
+      - dye_harness_blue
+      - dye_harness_brown
+      - dye_harness_green
+      - dye_harness_red
+      - dye_harness_black
       - crush_disc_chirp
       - crush_disc_far
       - crush_disc_mall
@@ -9515,11 +9555,6 @@ recipes:
         ==: org.bukkit.inventory.ItemStack
         type: STRING
         amount: 16
-      slime:
-        v: 3839
-        ==: org.bukkit.inventory.ItemStack
-        type: SLIME_BALL
-        amount: 4
     output:
       leads:
         v: 3839
@@ -17155,7 +17190,7 @@ recipes:
         type: RESIN_BRICK
         amount: 1
         meta:
-          v: 4440
+          meta-type: UNSPECIFIC
           ==: ItemMeta
           display-name: Nether Fossil
           lore:
@@ -17639,9 +17674,54 @@ recipes:
         type: COAL
         amount: 8
 
-  #########################################
-  # Repair
-  #########################################
+  oil_fishing_rod:
+    production_time: 8s
+    name: Craft Oiled Lava Rod
+    type: PRODUCTION
+    input:
+      stick:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: STICK
+        amount: 4
+      string:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: STRING
+        amount: 4
+      nether_quartz:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: QUARTZ
+        amount: 32
+      sulfur:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: GLOWSTONE_DUST
+        amount: 16
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Sulfur
+          lore:
+            - Refined sulfur from glowstone
+      magmacream:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGMA_CREAM
+        amount: 8
+    output:
+      oil_fishing_rod:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: FISHING_ROD
+        amount: 2
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Oiled Lava Rod
+          lore:
+            - Slick and oiled, lava resistant!
 
   repair_nether_alchemy_factory:
     production_time: 4s
@@ -17660,7 +17740,522 @@ recipes:
         amount: 4
     health_gained: 10000
 
+  #########################################
+  # Leather Boiling Factory
+  #########################################
 
+  boil_leather_helmet:
+    production_time: 4s
+    name: Boil Leather Helmet
+    type: PRODUCTION
+    input:
+      leather_helmet:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_HELMET
+        amount: 1
+      water_bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WATER_BUCKET
+        amount: 1
+      magma_block:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGMA_BLOCK
+        amount: 4
+    output:
+      boiled_leather_helmet:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_HELMET
+        amount: 1
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Hardened Leather Helmet
+          enchants:
+              unbreaking: 3
+      bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BUCKET
+        amount: 1
+
+  boil_leather_chestplate:
+    production_time: 4s
+    name: Boil Leather Chestplate
+    type: PRODUCTION
+    input:
+      leather_chestplate:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack    
+        type: LEATHER_CHESTPLATE
+        amount: 1
+      water_bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WATER_BUCKET
+        amount: 1
+      magma_block:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGMA_BLOCK
+        amount: 4
+    output:
+      boiled_leather_chestplate:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_CHESTPLATE
+        amount: 1
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Hardened Leather Chestplate
+          enchants:
+              unbreaking: 3
+      bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BUCKET
+        amount: 1
+
+  boil_leather_leggings:
+    production_time: 4s
+    name: Boil Leather Leggings
+    type: PRODUCTION
+    input:
+      leather_leggings:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_LEGGINGS
+        amount: 1
+      water_bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WATER_BUCKET
+        amount: 1
+      magma_block:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGMA_BLOCK
+        amount: 4
+    output:
+      boiled_leather_leggings:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_LEGGINGS
+        amount: 1
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Hardened Leather Leggings
+          enchants:
+              unbreaking: 3 
+      bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BUCKET
+        amount: 1
+
+  boil_leather_boots: 
+    production_time: 4s
+    name: Boil Leather Boots
+    type: PRODUCTION
+    input:
+      leather_boots:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_BOOTS
+        amount: 1
+      water_bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WATER_BUCKET
+        amount: 1
+      magma_block:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGMA_BLOCK
+        amount: 4
+    output:
+      boiled_leather_boots:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER_BOOTS
+        amount: 1
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Hardened Leather Boots
+          enchants:
+              unbreaking: 3
+      bucket:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BUCKET
+        amount: 1
+
+  repair_leather_boiling_factory:
+    production_time: 4s
+    name: Repair Factory
+    type: REPAIR
+    input:
+      leather:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LEATHER
+        amount: 32
+      magma_block:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGMA_BLOCK 
+        amount: 4
+    output:
+      health_gained: 10000
+
+  #########################################
+  # Saddle dying
+  #########################################
+
+  dye_harness_white:
+    production_time: 4s
+    name: Dye Harness White
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+  dye_harness_orange:
+    production_time: 4s
+    name: Dye Harness Orange
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: ORANGE_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: ORANGE_HARNESS
+        amount: 1
+  dye_harness_magenta:
+    production_time: 4s
+    name: Dye Harness Magenta
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGENTA_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: MAGENTA_HARNESS
+        amount: 1
+  dye_harness_light_blue:
+    production_time: 4s
+    name: Dye Harness Light Blue
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LIGHT_BLUE_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LIGHT_BLUE_HARNESS
+        amount: 1
+  dye_harness_yellow:
+    production_time: 4s
+    name: Dye Harness Yellow
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: YELLOW_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: YELLOW_HARNESS
+        amount: 1
+  dye_harness_lime:
+    production_time: 4s
+    name: Dye Harness Lime
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LIME_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LIME_HARNESS
+        amount: 1
+  dye_harness_pink:
+    production_time: 4s
+    name: Dye Harness Pink
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: PINK_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: PINK_HARNESS
+        amount: 1
+  dye_harness_gray:
+    production_time: 4s
+    name: Dye Harness Gray
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: GRAY_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: GRAY_HARNESS
+        amount: 1
+  dye_harness_light_gray:
+    production_time: 4s
+    name: Dye Harness Light Gray
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LIGHT_GRAY_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: LIGHT_GRAY_HARNESS
+        amount: 1
+  dye_harness_cyan:
+    production_time: 4s
+    name: Dye Harness Cyan
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: CYAN_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: CYAN_HARNESS
+        amount: 1
+  dye_harness_purple:
+    production_time: 4s
+    name: Dye Harness Purple
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: PURPLE_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: PURPLE_HARNESS
+        amount: 1
+  dye_harness_blue:
+    production_time: 4s
+    name: Dye Harness Blue
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BLUE_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BLUE_HARNESS
+        amount: 1
+  dye_harness_brown:
+    production_time: 4s
+    name: Dye Harness Brown
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BROWN_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BROWN_HARNESS
+        amount: 1
+  dye_harness_green:
+    production_time: 4s
+    name: Dye Harness Green
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: GREEN_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: GREEN_HARNESS
+        amount: 1
+  dye_harness_red:
+    production_time: 4s
+    name: Dye Harness Red
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: RED_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: RED_HARNESS
+        amount: 1
+  dye_harness_black:
+    production_time: 4s
+    name: Dye Harness Black
+    type: PRODUCTION
+    input:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: WHITE_HARNESS
+        amount: 1
+      dye:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BLACK_DYE
+        amount: 1
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: BLACK_HARNESS
+        amount: 1
+
+  
 
 
   
