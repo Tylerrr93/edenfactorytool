@@ -45,6 +45,7 @@ factories:
     type: FCC
     name: Leather Boiling Factory
     citadelBreakReduction: 2.0
+    default_health: 10000
     setupcost:
       leather:
         v: 3839
@@ -380,6 +381,7 @@ factories:
       - make_decorated_pot
       - pack_ice
       - pack_blue_ice
+      - assemble_firefly_bush
       - dye_harness_white
       - dye_harness_orange
       - dye_harness_magenta
@@ -17898,7 +17900,7 @@ recipes:
 
   repair_leather_boiling_factory:
     production_time: 4s
-    name: Repair Factory
+    name: Repair Leather Boiling Factory
     type: REPAIR
     input:
       leather:
@@ -17911,8 +17913,7 @@ recipes:
         ==: org.bukkit.inventory.ItemStack
         type: MAGMA_BLOCK 
         amount: 4
-    output:
-      health_gained: 10000
+    health_gained: 10000
 
   #########################################
   # Saddle dying
@@ -18254,7 +18255,34 @@ recipes:
         ==: org.bukkit.inventory.ItemStack
         type: BLACK_HARNESS
         amount: 1
-
+  assemble_firefly_bush:
+    production_time: 4s
+    name: Assemble Firefly Bush
+    type: PRODUCTION
+    input:
+      grass:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: SHORT_GRASS
+        amount: 64
+      sulfur:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: GLOWSTONE_DUST
+        amount: 4
+        meta:
+          meta-type: UNSPECIFIC
+          ==: ItemMeta
+          display-name: Sulfur
+          lore:
+            - Refined sulfur from glowstone
+    output:
+      harness:
+        v: 3839
+        ==: org.bukkit.inventory.ItemStack
+        type: FIREFLY_BUSH
+        amount: 32
+        
   
 
 
